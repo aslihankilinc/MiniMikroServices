@@ -3,6 +3,8 @@ using Mini.AuthApi.Data;
 using Mini.AuthApi.IContract;
 using Mini.AuthApi.Models;
 using Mini.AuthApi.Models.Dto;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Mini.AuthApi.Services
 {
@@ -13,17 +15,20 @@ namespace Mini.AuthApi.Services
         private AppDbContext db;
         private readonly IJwtService _jwt;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IRabbitMQAuthMessageSender _rabbit;
         public AuthService(ILogger<AuthService> logger,
             UserManager<User> userManager,
             AppDbContext context,
             RoleManager<IdentityRole> roleManager,
-            IJwtService jwt)
+            IJwtService jwt,
+            IRabbitMQAuthMessageSender rabbit)
         {
             _logger = logger;
             _userManager = userManager;
             db = context;
             _roleManager = roleManager;
             _jwt = jwt;
+            _rabbit = rabbit;
         }
         public async Task<LoginResponseDto> Login(LoginRequestDto request)
         {
@@ -48,6 +53,7 @@ namespace Mini.AuthApi.Services
                 User = userDTO,
                 Token = token
             };
+            _rabbit.SendMessage($"Kullanıcı Girişi {JsonConvert.SerializeObject(userDTO)}", "AuthLoginQueue");
 
             return loginResponseDto;
         }
@@ -62,7 +68,6 @@ namespace Mini.AuthApi.Services
                 Name = request.Name,
                 PhoneNumber = request.PhoneNumber
             };
-
             try
             {
                 var result = await _userManager.CreateAsync(user, request.Password);
