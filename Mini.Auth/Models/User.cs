@@ -2,7 +2,7 @@
 
 namespace Mini.AuthApi.Models
 {
-    public class User:IdentityUser
+    public class User : IdentityUser
     {
         public string Name { get; set; }
     }
