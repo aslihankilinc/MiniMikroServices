@@ -1,4 +1,5 @@
-﻿using Mini.EmailApi.Services;
+﻿using Mini.EmailApi.IContract;
+using Mini.EmailApi.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -8,12 +9,12 @@ namespace Mini.EmailApi.RabbitMQ
     public class RabbitMQAuthConsumerService : BackgroundService
     {
         private readonly IConfiguration _configuration;
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
         private IConnection _connection;
         private IChannel _channel;
         public static string queueName;
 
-        public RabbitMQAuthConsumerService(IConfiguration configuration, EmailService emailService)
+        public RabbitMQAuthConsumerService(IConfiguration configuration, IEmailService emailService)
         {
             queueName = configuration.GetValue<string>("RabbitMQEmailSettings:AuthQueueName");
             _configuration = configuration;
@@ -52,7 +53,7 @@ namespace Mini.EmailApi.RabbitMQ
                  );
                 }
 
-                _channel.BasicAckAsync(ea.DeliveryTag, false);
+              
             };
 
             await _channel.BasicConsumeAsync(queueName, false, consumer);

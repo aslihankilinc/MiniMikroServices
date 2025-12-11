@@ -1,7 +1,13 @@
+using Microsoft.Extensions.Options;
+using Mini.EmailApi.IContract;
+using Mini.EmailApi.RabbitMQ;
+using Mini.EmailApi.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddSingleton<IEmailService, EmailService>();
+builder.Services.AddHostedService<RabbitMQAuthConsumerService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
