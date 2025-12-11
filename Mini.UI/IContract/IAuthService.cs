@@ -6,7 +6,7 @@ namespace Mini.UI.IContract
 {
     public interface IAuthService
     {
-         Task<LoginResponseDto> Login(LoginRequestDto requestD);
+         Task<ResponseDto> Login(LoginRequestDto requestD);
          Task<ResponseDto> Register(RegisterRequest register);
     }
 }

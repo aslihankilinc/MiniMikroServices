@@ -22,14 +22,18 @@ namespace Mini.AuthApi.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
         {
             
-           LoginResponseDto response = await _authService.Login(request);
-            if (response.User is null)
+           LoginResponseDto login = await _authService.Login(request);
+            if (login.User is null)
             {
+                response.Message = "Username or password is incorrect";
                 return BadRequest(response);
             }
+            response.Result = login;
             return Ok(response);
         }
 
+
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]RegisterationRequestDto request)
         {
             response=await _authService.Register(request);

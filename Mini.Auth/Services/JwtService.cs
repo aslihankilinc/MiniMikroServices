@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
 using Mini.AuthApi.IContract;
 using Mini.AuthApi.Models;
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 namespace Mini.AuthApi.Services
 {

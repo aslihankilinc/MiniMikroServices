@@ -14,7 +14,7 @@ namespace Mini.UI.Services
         {
             _baseService = baseService;
         }
-        public async Task<LoginResponseDto> Login(LoginRequestDto request)
+        public async Task<ResponseDto> Login(LoginRequestDto request)
         {
             return await _baseService.SendAsync(new RequestDto()
             {
