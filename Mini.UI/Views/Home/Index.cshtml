@@ -1,8 +1,17 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model LoginRequestDto
+<form method="post" asp-action="login">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="Username" value="@Model.UserName" required />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="Password" required />
+    </div>
+    <div>
+        <button type="submit">Login</button>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_Validationscriptspartial.cshtml" />
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
